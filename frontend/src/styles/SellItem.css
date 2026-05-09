@@ -1,0 +1,150 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Container */
+.sell-container {
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #7ce3f7, #b64fdb);
+  padding: 20px;
+  overflow-y: auto;
+}
+/* Card */
+.sell-card {
+  height: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  /* overflow: auto; */
+  width: 600px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Title */
+.sell-title {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Inputs */
+.sell-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Row */
+.row {
+  display: flex;
+  gap: 15px;
+}
+
+/* Button */
+.sell-form button {
+  width: 100%;
+  padding: 16px;
+  margin-top: 5px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sell-form button:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+/* Textarea (Product Description) */
+.sell-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin: 6px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: vertical;
+  height: 100px;
+  font-family: inherit;
+  outline: none;
+  transition: 0.3s;
+}
+
+.sell-form textarea:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+/* Select dropdowns (category + condition) */
+.sell-form select {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+}
+
+.sell-form select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+/* File input label */
+.sell-form label {
+  display: block;
+  margin-top: 5px;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Image preview */
+.sell-form img {
+  margin-top: 5px;
+  border: 2px solid #ddd;
+  padding: 4px;
+  transition: 0.3s;
+}
+
+.sell-form img:hover {
+  transform: scale(1.03);
+  border-color: #7c3aed;
+}
+
+/* Mobile responsive */
+@media (max-width: 700px) {
+  .sell-card {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sell-title {
+    font-size: 24px;
+  }
+}

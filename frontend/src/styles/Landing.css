@@ -1,0 +1,129 @@
+
+/* MAIN CONTAINER */
+.landingContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  padding: 60px 20px;
+  font-family: Arial, sans-serif;
+  color: #111;
+}
+
+/* HERO */
+.heroSection {
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.heroTitle {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+.heroTitle span {
+  color: #ba3ce0;
+}
+
+.heroSubtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+.heroButtons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.primaryBtn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #0f61e4, #ec40e0);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primaryBtn:hover {
+  transform: scale(1.05);
+}
+
+.secondaryBtn {
+  padding: 12px 24px;
+  background: white;
+  border: 2px solid #3b82f6;
+  color: #1e40af;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondaryBtn:hover {
+  background: #eef2ff;
+}
+
+.bigBtn {
+    margin-top: 10px;
+  padding: 14px 32px;
+  font-size: 18px;
+}
+
+/* FEATURES */
+.featuresSection {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.featuresSection h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.featureCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+}
+
+/* CTA */
+.ctaSection {
+  margin-top: 80px;
+  text-align: center;
+  padding: 40px 20px;
+  background: #1e40af;
+  color: white;
+  border-radius: 16px;
+}
+
+.ctaSection h2 {
+  font-size: 28px;
+}
+
+.ctaSection p {
+  margin-top: 10px;
+  opacity: 0.9;
+}
