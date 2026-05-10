@@ -6,6 +6,7 @@ const API = import.meta.env.VITE_API_URL;
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
+const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     branch: "",
@@ -17,12 +18,13 @@ const Profile = () => {
 
   // Fetch profile
   const fetchProfile = async () => {
+    setLoading(true)
     try {
       const res = await axios.get(
         `${API}/api/users/me`,
         { withCredentials: true }
       );
-
+      setLoading(false)
       const user = res.data.user;
       setProfileData(user);
 
@@ -39,6 +41,7 @@ const Profile = () => {
         setEditMode(true);
       }
     } catch (error) {
+      setLoading(false)
       console.error(error?.response?.data || error.message);
     }
   };
@@ -66,6 +69,7 @@ const Profile = () => {
 
   // Save profile
   const handleSave = async () => {
+    setLoading(true)
     try {
       const data = new FormData();
 
@@ -85,19 +89,26 @@ const Profile = () => {
           withCredentials: true,
         }
       );
+      setLoading(false)
       toast.success("Profile updated successfully");
       setEditMode(false);
       fetchProfile();
     } catch (error) {
+      setLoading(false)
       console.log(error.data || error.message);
       toast.error("Update failed");
     }
   };
 
-  if (!profileData) {
-    return <div className="profile-loading">Loading...</div>;
-  }
 
+   if (loading) {
+        return (
+            <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Loading Your Products...</p>
+            </div>
+        );
+    }
   return (
     <div >
       <div className="profile-page">
