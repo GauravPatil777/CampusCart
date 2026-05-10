@@ -136,7 +136,7 @@ const Navbar = () => {
 
       {/* MENU */}
       <div>
-        <Button classN onClick={handleClick}>
+        <Button onClick={handleClick}>
           <MenuIcon sx={{ fontSize: "35px", background: "lightgreen", borderRadius: "20%" }} />
         </Button>
 

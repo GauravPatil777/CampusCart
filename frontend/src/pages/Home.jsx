@@ -65,7 +65,7 @@ const Home = () => {
 
       if (!isLiked) {
         await axios.post(
-          "http://localhost:3000/api/wishlist",
+          `${API}/api/wishlist`,
           { productId },
           { withCredentials: true }
         );

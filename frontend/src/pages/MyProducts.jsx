@@ -31,7 +31,7 @@ const MyProducts = () => {
                     `${API}/api/products/my-products`,
                     { withCredentials: true }
                 );
-
+                    
                 setProducts(products.data);
             } catch (error) {
                 console.error(
