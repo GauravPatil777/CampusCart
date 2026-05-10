@@ -33,11 +33,15 @@ const Signup = () => {
       // Save email before clearing state
       const userEmail = email;
 
+      toast.info("data sent");
+
       await handleRegister({
         name,
         email,
         password,
       });
+
+      toast.success("result came");
 
       // Clear fields
       setName("");
@@ -55,6 +59,8 @@ const Signup = () => {
         error?.response?.status === 403 &&
         error?.response?.data?.userExist?.isVerified === false
       ) {
+        toast.info("otp resending");
+
         await axios.post(
           `${API}/api/users/resend-otp`,
           {
@@ -182,12 +188,7 @@ const Signup = () => {
 
           <h1>Create Account</h1>
 
-          {/* Error Message */}
-          {error && (
-            <p style={{ color: "red", fontWeight: "bold" }}>
-              {error}
-            </p>
-          )}
+          {error && <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>}
 
           {/* Signup Form */}
           <form onSubmit={handleSubmit}>
@@ -269,4 +270,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;          
+export default Signup;
