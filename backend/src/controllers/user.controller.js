@@ -1,17 +1,20 @@
 import bcrypt from 'bcrypt';
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 import cloudinary from "../config/cloudinary.js"
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Email transporter
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-});
+// const transporter = nodemailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//         user: process.env.EMAIL,
+//         pass: process.env.EMAIL_PASSWORD,
+//     },
+// });
 
 
 export const registerUser = async (req, res) => {
@@ -55,21 +58,13 @@ export const registerUser = async (req, res) => {
         });
 
 
-        return res.status(201).json({
-            message: "User registered successfully. OTP sent to email.",
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        });
+
         // Send OTP email
         try {
-            await transporter.sendMail({
-                from: `"CampusCart App" <${process.env.EMAIL}>`,
+            await resend.emails.send({
+                from: "CampusCart <onboarding@resend.dev>",
                 to: email,
                 subject: "Verify Your Email",
-
                 text: `Your OTP is ${otp}. It is valid for 5 minute.`,
 
                 headers: {
@@ -117,7 +112,14 @@ export const registerUser = async (req, res) => {
         } catch (mailError) {
             console.log(mailError);
         }
-
+        return res.status(201).json({
+            message: "User registered successfully. OTP sent to email.",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
 
     } catch (error) {
         return res.status(500).json({
@@ -151,16 +153,13 @@ export const resendOtp = async (req, res) => {
         user.otpExpiry = otpExpiry;
         await user.save();
 
-        return res.status(200).json({
-            message: "OTP resent successfully"
-        });
+
         // send email
         try {
-            await transporter.sendMail({
-                from: `"CampusCart App" <${process.env.EMAIL}>`,
+            await resend.emails.send({
+                from: "CampusCart <onboarding@resend.dev>",
                 to: email,
                 subject: "Verify Your Email",
-
                 // helps Gmail fallback display if HTML fails
                 text: `Your OTP is ${otp}. It is valid for 5 minute.`,
 
@@ -205,11 +204,16 @@ export const resendOtp = async (req, res) => {
     </div>
   `,
             });
-
+            console.log("OTP SENT")
         } catch (mailError) {
             console.log(mailError);
         }
-
+        return res.status(200).json({
+            message: "OTP resent successfully",
+            user:{
+                user:user.otp
+            }
+        });
     } catch (error) {
         res.status(500).json({
             message: error.message,
