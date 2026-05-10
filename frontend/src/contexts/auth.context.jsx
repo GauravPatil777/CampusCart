@@ -6,11 +6,11 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // important
-console.log(API);
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get(`${API}/users/me`, {
+        const res = await axios.get(`${API}/api/users/me`, {
           withCredentials: true,
         });
         setUser(res.data.user); // store full user
