@@ -64,7 +64,7 @@ const Login = () => {
 
         return;
       }
-
+      setLoading(false)
       setError(
         error?.response?.data?.message || "Login failed"
       );
@@ -156,7 +156,7 @@ const Login = () => {
           </div>
 
           <h1>Login</h1>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p style={{ color: "red",fontWeight:"bold" }}>{error}</p>}
 
           <form onSubmit={handleSubmit}>
             <div className='inputbox'>
@@ -166,7 +166,9 @@ const Login = () => {
                 id='email'
                 placeholder='Enter Your Email'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {setEmail(e.target.value)
+                   setError("")
+                }}
                 required
               />
             </div>
@@ -178,7 +180,9 @@ const Login = () => {
                 id='password'
                 placeholder='Enter Password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {setPassword(e.target.value)
+                  setError("")
+                }}
                 required
               />
             </div>

@@ -43,7 +43,6 @@ const Home = () => {
 
   useEffect(() => {
     const fetchWislist = async () => {
-      if (loading) return;
       if (!user) {
         setLiked([]);
         return;

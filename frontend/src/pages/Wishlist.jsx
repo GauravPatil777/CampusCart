@@ -70,7 +70,7 @@ const Wishlist = () => {
 
             if (!isLiked) {
                 await axios.post(
-                   ` ${API}/api/wishlist`,
+                   `${API}/api/wishlist`,
                     { productId },
                     { withCredentials: true }
                 );

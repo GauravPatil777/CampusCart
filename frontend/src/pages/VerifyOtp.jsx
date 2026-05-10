@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../styles/verifyOtp.css";
- import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 import { toast } from "react-toastify";
 const API = import.meta.env.VITE_API_URL;
 const VerifyOtp = () => {
- 
-  const { user,setUser} = useAuth();
+
+  const { user,setUser } = useAuth();
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   //  resend timer
   const [timer, setTimer] = useState(60);
 
@@ -23,6 +23,10 @@ const navigate = useNavigate();
       navigate("/login");
     }
   }, [email, navigate]);
+
+  useEffect(() => {
+    return () => setTimer(60);
+  }, []);
   //  countdown
   useEffect(() => {
     if (timer <= 0) return;
@@ -39,19 +43,22 @@ const navigate = useNavigate();
     setLoading(true);
 
     try {
-      const res=await axios.post(
-       ` ${API}/users/verify-otp`,
-        { email, otp },
+      const res = await axios.post(
+        `${API}/api/users/verify-otp`,
+        { email, otp: otp.trim() },
         { withCredentials: true }
       );
-      setUser(res.data.user);
-      toast.success("OTP verified successfully. You are now logged in.");
-      navigate("/home");
-    } catch (error) {
-      console.log(error);
 
+      setUser(res.data.user);
+
+      toast.success("OTP verified successfully. You are now logged in.");
+
+      navigate("/home");
+
+    } catch (error) {
       toast.error(error?.response?.data?.message || "OTP verification failed");
       setOtp("");
+
     } finally {
       setLoading(false);
     }
@@ -63,12 +70,13 @@ const navigate = useNavigate();
       setResendLoading(true);
 
       await axios.post(
-       ` ${API}/api/users/resend-otp`,
+        `${API}/api/users/resend-otp`,
         { email },
         { withCredentials: true }
       );
 
-      // restart timer
+      toast.success("OTP sent again");
+
       setTimer(60);
 
     } catch (error) {
@@ -80,7 +88,6 @@ const navigate = useNavigate();
       setResendLoading(false);
     }
   };
-
   return (
     <div className="otp-container">
 
@@ -100,7 +107,10 @@ const navigate = useNavigate();
           type="text"
           placeholder="Enter OTP"
           value={otp}
-          onChange={(e) => setOtp(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, ""); // only numbers
+            setOtp(value);
+          }}
           maxLength={6}
           className="otp-input"
         />

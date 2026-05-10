@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../hooks/useAuth';
 import "../styles/loginForm.css";
 import registerImg from "../assets/register.jpg";
+import { toast } from 'react-toastify';
+import axios from 'axios';
+const API = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -26,7 +29,7 @@ const Signup = () => {
       setError("");
       setLoading(true);
 
-      await handleRegister({
+      const data = await handleRegister({
         name,
         email,
         password,
@@ -39,6 +42,24 @@ const Signup = () => {
       navigate("/verify-otp", { state: { email } });
 
     } catch (error) {
+      if (
+        error?.response?.status === 403 &&
+        error?.response?.data?.userExist?.isVerified === false
+      ) {
+        await axios.post(
+          `${API}/api/users/resend-otp`,
+          { email: error.response.data.userExist.email },
+          { withCredentials: true }
+        );
+        toast.info("OTP resent to your email. Please verify to register.");
+        navigate("/verify-otp", {
+          state: {
+            email: error.response.data.userExist.email
+          }
+        });
+
+        return;
+      }
       setError(
         error.response?.data?.message || error.message || "Registration failed"
       );
@@ -129,7 +150,7 @@ const Signup = () => {
           </div>
           <h1>Create Account</h1>
 
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p style={{ color: "red",fontWeight:"bold" }}>{error}</p>}
 
           <form onSubmit={handleSubmit}>
 
@@ -140,7 +161,10 @@ const Signup = () => {
                 id='name'
                 placeholder='Enter Name'
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value)
+                  setError("")
+                }}
                 required
               />
             </div>
@@ -148,11 +172,14 @@ const Signup = () => {
             <div className='inputbox'>
               <label htmlFor="email">Email</label>
               <input
-                type="text"
+                type="email"
                 id='email'
                 placeholder='Enter Email'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  setError("")
+                }}
                 required
               />
             </div>
@@ -164,7 +191,10 @@ const Signup = () => {
                 id='password'
                 placeholder='Enter Password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  setError("")
+                }}
                 required
               />
             </div>

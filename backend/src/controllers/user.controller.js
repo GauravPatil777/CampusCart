@@ -9,6 +9,15 @@ export const registerUser = async (req, res) => {
 
     try {
         const userExist = await userModel.findOne({ email });
+        if (userExist && !userExist.isVerified) {
+            return res.status(403).json({
+                message: "Email not verified",
+                userExist: {
+                    email: userExist.email,
+                    isVerified: false
+                }
+            });
+        }
 
         if (userExist) {
             return res.status(400).json({
@@ -47,7 +56,7 @@ export const registerUser = async (req, res) => {
         // Send OTP email
         try {
             await transporter.sendMail({
-                from: `"SellIt App" <${process.env.EMAIL}>`,
+                from: `"CampusCart App" <${process.env.EMAIL}>`,
                 to: email,
                 subject: "Verify Your Email",
 
@@ -62,7 +71,7 @@ export const registerUser = async (req, res) => {
                 html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9fafb;">
                     <h2 style="color: #111827;">
-                        SellIt Email Verification
+                        CampusCart Email Verification
                     </h2>
 
                     <p style="font-size: 16px; color: #374151;">
@@ -150,7 +159,7 @@ export const resendOtp = async (req, res) => {
         // send email
         try {
             await transporter.sendMail({
-                from: `"SellIt App" <${process.env.EMAIL}>`,
+                from: `"CampusCart App" <${process.env.EMAIL}>`,
                 to: email,
                 subject: "Verify Your Email",
 
@@ -166,7 +175,7 @@ export const resendOtp = async (req, res) => {
                 html: `
     <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9fafb;">
       
-      <h2 style="color: #111827;">SellIt Email Verification</h2>
+      <h2 style="color: #111827;">CampusCart Email Verification</h2>
       
       <p style="font-size: 16px; color: #374151;">
         Use the OTP below to verify your email:
@@ -272,7 +281,7 @@ export const loginUser = async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,        // true in production (HTTPS)
-            sameSite: "None",      // helps with CSRF
+             sameSite: "None",     // helps with CSRF
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
         return res.status(200).json({
@@ -334,15 +343,15 @@ export const logoutUser = async (req, res) => {
         res.clearCookie("token", {
             httpOnly: true,
             secure: true,   // Must match your login settings
-            sameSite: "None", // Must match your login settings
+             sameSite: "None", // Must match your login settings
         });
 
-        return res.status(200).json({ 
-            message: "Logged out successfully" 
+        return res.status(200).json({
+            message: "Logged out successfully"
         });
     } catch (error) {
-        return res.status(500).json({ 
-            message: `Something went wrong: ${error.message}` 
+        return res.status(500).json({
+            message: `Something went wrong: ${error.message}`
         });
     }
 };
