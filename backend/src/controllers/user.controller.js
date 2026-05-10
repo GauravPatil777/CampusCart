@@ -271,7 +271,7 @@ export const loginUser = async (req, res) => {
         )
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,        // true in production (HTTPS)
+            secure: false,        // true in production (HTTPS)
             sameSite: "None",      // helps with CSRF
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
