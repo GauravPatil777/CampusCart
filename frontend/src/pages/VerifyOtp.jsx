@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 const API = import.meta.env.VITE_API_URL;
 const VerifyOtp = () => {
 
-  const { user,setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const navigate = useNavigate();
   //  resend timer
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(60 * 5);
 
   const location = useLocation();
   const email = location.state?.email || "";
@@ -25,7 +25,7 @@ const VerifyOtp = () => {
   }, [email, navigate]);
 
   useEffect(() => {
-    return () => setTimer(60);
+    return () => setTimer(60 * 5);
   }, []);
   //  countdown
   useEffect(() => {
@@ -77,7 +77,7 @@ const VerifyOtp = () => {
 
       toast.success("OTP sent again");
 
-      setTimer(60);
+      setTimer(60 * 5);
 
     } catch (error) {
       console.log(error);

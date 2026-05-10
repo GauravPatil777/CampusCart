@@ -4,6 +4,16 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import cloudinary from "../config/cloudinary.js"
 
+// Email transporter
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
+
+
 export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -32,8 +42,8 @@ export const registerUser = async (req, res) => {
             100000 + Math.random() * 900000
         ).toString();
 
-        // OTP expiry = 1 minute
-        const otpExpiry = Date.now() + 1 * 60 * 1000;
+        // OTP expiry = 5 minute
+        const otpExpiry = Date.now() + 5 * 60 * 1000;
 
         const user = await userModel.create({
             name,
@@ -44,15 +54,15 @@ export const registerUser = async (req, res) => {
             password: hash,
         });
 
-        // Email transporter
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_PASSWORD,
-            },
-        });
 
+        return res.status(201).json({
+            message: "User registered successfully. OTP sent to email.",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
         // Send OTP email
         try {
             await transporter.sendMail({
@@ -60,7 +70,7 @@ export const registerUser = async (req, res) => {
                 to: email,
                 subject: "Verify Your Email",
 
-                text: `Your OTP is ${otp}. It is valid for 1 minute.`,
+                text: `Your OTP is ${otp}. It is valid for 5 minute.`,
 
                 headers: {
                     "X-Priority": "1",
@@ -93,7 +103,7 @@ export const registerUser = async (req, res) => {
                     </div>
 
                     <p style="color: #6b7280;">
-                        This OTP is valid for <b>1 minute</b>.
+                        This OTP is valid for <b>5 minute</b>.
                     </p>
 
                     <hr style="margin: 20px 0;" />
@@ -108,14 +118,6 @@ export const registerUser = async (req, res) => {
             console.log(mailError);
         }
 
-        return res.status(201).json({
-            message: "User registered successfully. OTP sent to email.",
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        });
 
     } catch (error) {
         return res.status(500).json({
@@ -142,20 +144,16 @@ export const resendOtp = async (req, res) => {
         }
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // expiry = 1 min
-        const otpExpiry = Date.now() + 1 * 60 * 1000;
+        // expiry = 5 min
+        const otpExpiry = Date.now() + 5 * 60 * 1000;
 
         user.otp = otp;
         user.otpExpiry = otpExpiry;
         await user.save();
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_PASSWORD,
-            },
-        });
 
+        return res.status(200).json({
+            message: "OTP resent successfully"
+        });
         // send email
         try {
             await transporter.sendMail({
@@ -164,7 +162,7 @@ export const resendOtp = async (req, res) => {
                 subject: "Verify Your Email",
 
                 // helps Gmail fallback display if HTML fails
-                text: `Your OTP is ${otp}. It is valid for 1 minute.`,
+                text: `Your OTP is ${otp}. It is valid for 5 minute.`,
 
                 headers: {
                     "X-Priority": "1",
@@ -196,7 +194,7 @@ export const resendOtp = async (req, res) => {
       </div>
 
       <p style="color: #6b7280;">
-        This OTP is valid for <b>1 minute</b>.
+        This OTP is valid for <b>5 minute</b>.
       </p>
 
       <hr style="margin: 20px 0;" />
@@ -211,9 +209,7 @@ export const resendOtp = async (req, res) => {
         } catch (mailError) {
             console.log(mailError);
         }
-        return res.status(200).json({
-            message: "OTP resent successfully"
-        });
+
     } catch (error) {
         res.status(500).json({
             message: error.message,
@@ -236,10 +232,29 @@ export const verifyOtp = async (req, res) => {
         user.otp = null;
         user.otpExpiry = null;
         await user.save();
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+        // Set cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
         return res.status(200).json({
             message: "Email verified successfully",
-            user
-        })
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                isVerified: true
+            }
+        });
+
     } catch (error) {
         res.status(500).json({
             message: error.message,
