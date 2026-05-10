@@ -75,7 +75,6 @@ const VerifyOtp = () => {
         { withCredentials: true }
       );
 
-      toast.success("OTP sent again");
 
       setTimer(60 * 5);
 

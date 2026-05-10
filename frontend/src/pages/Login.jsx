@@ -55,7 +55,6 @@ const Login = () => {
           { email: error.response.data.user.email },
           { withCredentials: true }
         );
-        console.log(res);
         toast.info("OTP resent to your email. Please verify to login.");
         navigate("/verify-otp", {
           state: {

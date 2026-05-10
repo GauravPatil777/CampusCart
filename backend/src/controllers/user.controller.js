@@ -1,21 +1,10 @@
 import bcrypt from 'bcrypt';
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-// import nodemailer from "nodemailer";
 import cloudinary from "../config/cloudinary.js"
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Email transporter
-// const transporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//         user: process.env.EMAIL,
-//         pass: process.env.EMAIL_PASSWORD,
-//     },
-// });
-
 
 export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
@@ -204,7 +193,6 @@ export const resendOtp = async (req, res) => {
     </div>
   `,
             });
-            console.log("OTP SENT")
         } catch (mailError) {
             console.log(mailError);
         }

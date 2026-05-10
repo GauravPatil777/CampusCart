@@ -33,15 +33,11 @@ const Signup = () => {
       // Save email before clearing state
       const userEmail = email;
 
-      toast.info("data sent");
-
       await handleRegister({
         name,
         email,
         password,
       });
-
-      toast.success("result came");
 
       // Clear fields
       setName("");
@@ -59,7 +55,6 @@ const Signup = () => {
         error?.response?.status === 403 &&
         error?.response?.data?.userExist?.isVerified === false
       ) {
-        toast.info("otp resending");
 
         await axios.post(
           `${API}/api/users/resend-otp`,
