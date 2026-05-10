@@ -5,6 +5,7 @@ import "../styles/loginForm.css";
 import registerImg from "../assets/register.jpg";
 import { toast } from 'react-toastify';
 import axios from 'axios';
+
 const API = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
@@ -29,39 +30,56 @@ const Signup = () => {
       setError("");
       setLoading(true);
 
-      const data = await handleRegister({
+      // Save email before clearing state
+      const userEmail = email;
+
+      await handleRegister({
         name,
         email,
         password,
       });
 
+      // Clear fields
       setName("");
       setEmail("");
       setPassword("");
 
-      navigate("/verify-otp", { state: { email } });
+      // Navigate to OTP verification page
+      navigate("/verify-otp", {
+        state: { email: userEmail },
+      });
 
     } catch (error) {
+      // If user exists but not verified → resend OTP
       if (
         error?.response?.status === 403 &&
         error?.response?.data?.userExist?.isVerified === false
       ) {
         await axios.post(
           `${API}/api/users/resend-otp`,
-          { email: error.response.data.userExist.email },
-          { withCredentials: true }
+          {
+            email: error.response.data.userExist.email,
+          },
+          {
+            withCredentials: true,
+          }
         );
+
         toast.info("OTP resent to your email. Please verify to register.");
+
         navigate("/verify-otp", {
           state: {
-            email: error.response.data.userExist.email
-          }
+            email: error.response.data.userExist.email,
+          },
         });
 
         return;
       }
+
       setError(
-        error.response?.data?.message || error.message || "Registration failed"
+        error?.response?.data?.message ||
+        error?.message ||
+        "Registration failed"
       );
     } finally {
       setLoading(false);
@@ -70,13 +88,16 @@ const Signup = () => {
 
   return (
     <div className='authContainer'>
+      {/* Left Image */}
       <div className="left">
         <img src={registerImg} alt="RegisterImage" />
       </div>
 
+      {/* Right Form */}
       <div className="right">
         <div className='authbox'>
-          {/* LOGO */}
+
+          {/* Logo */}
           <div
             className="appHead"
             style={{
@@ -115,7 +136,7 @@ const Signup = () => {
                   fill="none"
                 />
 
-                {/* Wheels (UPDATED opacity) */}
+                {/* Wheels */}
                 <circle cx="70" cy="145" r="8" fill="#8B5CF6" opacity="0.9" />
                 <circle cx="120" cy="145" r="8" fill="#8B5CF6" opacity="0.9" />
 
@@ -128,10 +149,20 @@ const Signup = () => {
                 />
 
                 {/* Graduation Cap */}
-                <path d="M60 40 L100 25 L140 40 L100 55 Z" fill="#3B82F6" />
+                <path
+                  d="M60 40 L100 25 L140 40 L100 55 Z"
+                  fill="#3B82F6"
+                />
 
                 {/* Tassel */}
-                <line x1="140" y1="40" x2="150" y2="55" stroke="#FACC15" strokeWidth="3" />
+                <line
+                  x1="140"
+                  y1="40"
+                  x2="150"
+                  y2="55"
+                  stroke="#FACC15"
+                  strokeWidth="3"
+                />
                 <circle cx="150" cy="58" r="3" fill="#FACC15" />
               </svg>
             </div>
@@ -148,12 +179,19 @@ const Signup = () => {
               Campus<span style={{ color: "#3B82F6" }}>Cart</span>
             </h1>
           </div>
+
           <h1>Create Account</h1>
 
-          {error && <p style={{ color: "red",fontWeight:"bold" }}>{error}</p>}
+          {/* Error Message */}
+          {error && (
+            <p style={{ color: "red", fontWeight: "bold" }}>
+              {error}
+            </p>
+          )}
 
+          {/* Signup Form */}
           <form onSubmit={handleSubmit}>
-
+            {/* Name */}
             <div className='inputbox'>
               <label htmlFor="name">Name</label>
               <input
@@ -162,13 +200,14 @@ const Signup = () => {
                 placeholder='Enter Name'
                 value={name}
                 onChange={(e) => {
-                  setName(e.target.value)
-                  setError("")
+                  setName(e.target.value);
+                  setError("");
                 }}
                 required
               />
             </div>
 
+            {/* Email */}
             <div className='inputbox'>
               <label htmlFor="email">Email</label>
               <input
@@ -177,13 +216,14 @@ const Signup = () => {
                 placeholder='Enter Email'
                 value={email}
                 onChange={(e) => {
-                  setEmail(e.target.value)
-                  setError("")
+                  setEmail(e.target.value);
+                  setError("");
                 }}
                 required
               />
             </div>
 
+            {/* Password */}
             <div className='inputbox'>
               <label htmlFor="password">Password</label>
               <input
@@ -192,17 +232,19 @@ const Signup = () => {
                 placeholder='Enter Password'
                 value={password}
                 onChange={(e) => {
-                  setPassword(e.target.value)
-                  setError("")
+                  setPassword(e.target.value);
+                  setError("");
                 }}
                 required
               />
             </div>
 
+            {/* Submit Button */}
             <button type='submit' disabled={loading}>
               {loading ? "Creating..." : "Sign Up"}
             </button>
 
+            {/* Login Link */}
             <p>
               Already have an account?
               <Link
@@ -219,12 +261,12 @@ const Signup = () => {
                 Login
               </Link>
             </p>
-
           </form>
+
         </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default Signup;          
