@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-    origin: "true",
+    origin: "https://campus-cart-theta.vercel.app",
     credentials: true
 }));
 app.use(cookieParser());
