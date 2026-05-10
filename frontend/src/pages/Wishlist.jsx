@@ -40,7 +40,7 @@ const Wishlist = () => {
                 setLoading(true);
 
                 const res = await axios.get(
-                    `${API}http://localhost:3000/api/wishlist`,
+                    `${API}/api/wishlist`,
                     { withCredentials: true }
                 );
 
@@ -70,7 +70,7 @@ const Wishlist = () => {
 
             if (!isLiked) {
                 await axios.post(
-                   ` ${API}http://localhost:3000/api/wishlist`,
+                   ` ${API}/api/wishlist`,
                     { productId },
                     { withCredentials: true }
                 );

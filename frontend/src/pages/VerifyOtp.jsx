@@ -4,7 +4,7 @@ import axios from "axios";
 import "../styles/verifyOtp.css";
  import { useAuth } from '../hooks/useAuth';
 import { toast } from "react-toastify";
-
+const API = import.meta.env.VITE_API_URL;
 const VerifyOtp = () => {
  
   const { user,setUser} = useAuth();
@@ -40,7 +40,7 @@ const navigate = useNavigate();
 
     try {
       const res=await axios.post(
-        "http://localhost:3000/api/users/verify-otp",
+       ` ${API}/users/verify-otp`,
         { email, otp },
         { withCredentials: true }
       );
