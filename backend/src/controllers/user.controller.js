@@ -331,18 +331,18 @@ export const updateProfile = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
     try {
-        // Backend Logout Route
-        router.post("/logout", (req, res) => {
-            res
-                .clearCookie("token", {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "None",
-                })
-                .status(200)
-                .json({ message: "Logged out successfully" });
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,   // Must match your login settings
+            sameSite: "None", // Must match your login settings
+        });
+
+        return res.status(200).json({ 
+            message: "Logged out successfully" 
         });
     } catch (error) {
-        res.json(`something went wrong ${error}`)
+        return res.status(500).json({ 
+            message: `Something went wrong: ${error.message}` 
+        });
     }
-}
+};
