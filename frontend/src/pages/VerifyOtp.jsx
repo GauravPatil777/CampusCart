@@ -63,7 +63,7 @@ const navigate = useNavigate();
       setResendLoading(true);
 
       await axios.post(
-        "http://localhost:3000/api/users/resend-otp",
+       ` ${API}/api/users/resend-otp`,
         { email },
         { withCredentials: true }
       );

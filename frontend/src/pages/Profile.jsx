@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
 import { toast } from "react-toastify";
-
+const API = import.meta.env.VITE_API_URL;
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -19,7 +19,7 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/users/me",
+        `${API}/api/users/me`,
         { withCredentials: true }
       );
 
@@ -79,7 +79,7 @@ const Profile = () => {
       }
 
       await axios.put(
-        "http://localhost:3000/api/users/update-profile",
+        `${API}/api/users/update-profile`,
         data,
         {
           withCredentials: true,

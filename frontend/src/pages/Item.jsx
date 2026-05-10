@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../styles/Item.css";
+const API = import.meta.env.VITE_API_URL;
 
 const Item = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const Item = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `${API}/api/products/${id}`
         );
         setProduct(res.data);
       } catch (error) {

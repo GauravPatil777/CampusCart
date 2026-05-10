@@ -7,6 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { toast } from "react-toastify";
 import { useSearch } from "../contexts/search.context";
+const API = import.meta.env.VITE_API_URL;
 
 const Home = () => {
 
@@ -27,7 +28,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/products");
+        const res = await axios.get(`${API}/api/products`);
         setProducts(res.data);
         setLoading(false);
       } catch (error) {
@@ -48,7 +49,7 @@ const Home = () => {
         return;
       }
       try {
-        const res = await axios.get("http://localhost:3000/api/wishlist", { withCredentials: true });
+        const res = await axios.get(`${API}/api/wishlist`, { withCredentials: true });
         const likedProds = res.data.wishlist.map(item => item._id);
         setLiked(likedProds)
       }
@@ -73,7 +74,7 @@ const Home = () => {
         setLiked((prev) => [...prev, productId]);
       } else {
         await axios.delete(
-          `http://localhost:3000/api/wishlist/${productId}`,
+          `${API}/api/wishlist/${productId}`,
           { withCredentials: true }
         );
 

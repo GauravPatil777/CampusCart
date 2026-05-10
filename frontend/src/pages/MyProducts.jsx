@@ -6,6 +6,7 @@ import emptyProduct from "../assets/emptyProduct.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import { useSearch } from "../contexts/search.context";
+const API = import.meta.env.VITE_API_URL;
 
 const MyProducts = () => {
     const [products, setProducts] = useState([]);
@@ -27,7 +28,7 @@ const MyProducts = () => {
 
             try {
                 const products = await axios.get(
-                    "http://localhost:3000/api/products/my-products",
+                    `${API}/api/products/my-products`,
                     { withCredentials: true }
                 );
 
@@ -47,7 +48,7 @@ const MyProducts = () => {
     const handleDelete = async (productId) => {
         try {
             await axios.delete(
-                `http://localhost:3000/api/products/${productId}`,
+                `${API}/api/products/${productId}`,
                 { withCredentials: true }
             );
 

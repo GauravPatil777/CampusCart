@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SellItem.css";
 import { toast } from "react-toastify";
 import SellIcon from '@mui/icons-material/Sell';
+const API = import.meta.env.VITE_API_URL;
 
 const SellItem = () => {
     const navigate = useNavigate();
@@ -56,7 +57,7 @@ const SellItem = () => {
             data.append("discountedPrice", formData.discountedPrice);
             setLoading(true)
             const res=await axios.post(
-                "http://localhost:3000/api/products/sell",
+                `${API}/api/products/sell`,
                 data,
                 {
                     withCredentials: true,

@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { AuthContext } from "../contexts/auth.context";
+const API = import.meta.env.VITE_API_URL;
 
 const Protected = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
@@ -12,7 +13,7 @@ const Protected = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res=await axios.get("http://localhost:3000/api/users/me", {
+        const res=await axios.get(`${API}/api/users/me`, {
           withCredentials: true,
         });
         const name=res.data.user.name;

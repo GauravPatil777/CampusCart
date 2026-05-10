@@ -9,7 +9,6 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../hooks/useAuth";
 import { useSearch } from "../contexts/search.context";

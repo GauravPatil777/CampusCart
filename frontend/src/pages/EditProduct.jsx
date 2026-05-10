@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../styles/EditProduct.css";
+const API = import.meta.env.VITE_API_URL;
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `${API}/api/products/${id}`
         );
 
         const p = res.data;
@@ -76,7 +77,7 @@ const EditProduct = () => {
       }
 
       await axios.put(
-        `http://localhost:3000/api/products/${id}`,
+        `${API}/api/products/${id}`,
         formData,
         {
           withCredentials: true,

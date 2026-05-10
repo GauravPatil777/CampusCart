@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from 'axios'
 import "../styles/loginForm.css"
 import loginImg from "../assets/login.jpg"
+const API = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -50,7 +51,7 @@ const Login = () => {
         error?.response?.data?.user?.isVerified === false
       ) {
         await axios.post(
-          "http://localhost:3000/api/users/resend-otp",
+          `${API}/api/users/resend-otp`,
           { email: error.response.data.user.email },
           { withCredentials: true }
         );

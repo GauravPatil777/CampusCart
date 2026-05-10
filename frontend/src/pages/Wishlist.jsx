@@ -8,6 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import emptyWishlist from "../assets/empty-wishlist.jpg";
 import { toast } from "react-toastify";
 import { useSearch } from "../contexts/search.context";
+const API = import.meta.env.VITE_API_URL;
 
 const Wishlist = () => {
     const { user } = useAuth();
@@ -39,7 +40,7 @@ const Wishlist = () => {
                 setLoading(true);
 
                 const res = await axios.get(
-                    "http://localhost:3000/api/wishlist",
+                    `${API}http://localhost:3000/api/wishlist`,
                     { withCredentials: true }
                 );
 
@@ -69,7 +70,7 @@ const Wishlist = () => {
 
             if (!isLiked) {
                 await axios.post(
-                    "http://localhost:3000/api/wishlist",
+                   ` ${API}http://localhost:3000/api/wishlist`,
                     { productId },
                     { withCredentials: true }
                 );
@@ -82,7 +83,7 @@ const Wishlist = () => {
                 ]);
             } else {
                 await axios.delete(
-                    `http://localhost:3000/api/wishlist/${productId}`,
+                    `${API}/api/wishlist/${productId}`,
                     { withCredentials: true }
                 );
 
