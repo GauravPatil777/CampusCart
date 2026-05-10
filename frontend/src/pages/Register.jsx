@@ -181,7 +181,7 @@ const Signup = () => {
                   color: "white",
                   background: "red",
                   borderRadius: "10px",
-                  padding: "6px",
+                  padding: "3px",
                   textDecoration: "none",
                   margin: "5px"
                 }}

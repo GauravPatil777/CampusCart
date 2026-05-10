@@ -186,7 +186,7 @@ const Login = () => {
               {loading?"⏳ Logging in...":"Login"}
             </button>
 
-            <p>Don't have an account?<Link to="/register" style={{ color: "white", background: "red", borderRadius: "10px", padding: "6px", textDecorationLine: "none", margin: "2px" }} >SignUp</Link></p>
+            <p>Don't have an account?<Link to="/register" style={{ color: "white", background: "red", borderRadius: "10px", padding: "3px", textDecorationLine: "none", margin: "2px" }} >SignUp</Link></p>
           </form>
         </div>
       </div>

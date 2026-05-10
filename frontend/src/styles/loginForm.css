@@ -1,106 +1,112 @@
 * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden; /* allow vertical scroll */
 }
 
+/* MAIN CONTAINER */
 .authContainer {
-    height: 100vh;
-    width: 100wh;
-    display: flex;
+  height: 100vh;
+  width: 100vw; /* fixed typo: wh → vw */
+  display: flex;
 }
 
+/* LEFT IMAGE */
 .authContainer .left {
-    width: 50%;
+  width: 50%;
 }
 
 .authContainer .left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-} 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
+/* RIGHT FORM AREA */
 .authContainer .right {
-    width: 60%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #fc72d3, #e0e063);
+  width: 50%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fc72d3, #e0e063);
+  padding: 20px;
 }
 
+/* FORM BOX */
 .authbox {
-    width: 90%;
-    max-width: 550px;
-    padding: 45px 40px;
-    border-radius: 12px;
-    background: white;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  width: 90%;
+  max-width: 550px;
+  padding: 45px 40px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
+/* INPUTS */
 .authbox form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .inputbox {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .inputbox input {
-    width: 100%;
-    border-radius: 12px;
-    font-size: 18px;
-    padding: 14px;
-    outline: none;
-    border: 1px solid #ccc;
+  width: 100%;
+  border-radius: 12px;
+  font-size: 18px;
+  padding: 14px;
+  outline: none;
+  border: 1px solid #ccc;
 }
 
 .inputbox input:focus {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
 .inputbox label {
-    font-size: 20px;
+  font-size: 18px;
 }
 
+/* BUTTON */
 .authbox button {
-    width: 100%;
-    border-radius: 12px;
-    font-size: 18px;
-    padding: 14px;
-    background-color: #FFD93D;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-    border: none;
+  width: 100%;
+  border-radius: 12px;
+  font-size: 18px;
+  padding: 14px;
+  background-color: #FFD93D;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  border: none;
 }
 
-button:hover {
-    transform: scale(1.03);
-    background-color: #facc15;
+.authbox button:hover {
+  transform: scale(1.03);
+  background-color: #facc15;
 }
 
 p {
-    text-align: center;
-    font-size: 20px;
+  text-align: center;
+  font-size: 18px;
 }
 
-.authbox {
-    animation: fadeIn 0.4s ease-in-out;
-}
+/* IMAGE LOADING */
 .imageSkeleton {
   width: 100%;
   height: 100%;
@@ -108,19 +114,58 @@ p {
   animation: shimmer 1.2s infinite;
 }
 
+/* ANIMATIONS */
 @keyframes shimmer {
   0% { background-position: -200px 0; }
   100% { background-position: 200px 0; }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* ========================= */
+/* 📱 MOBILE RESPONSIVE FIX */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .authContainer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .authContainer .left {
+    display: none; /* hide image on mobile */
+  }
+
+  .authContainer .right {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 15px;
+  }
+
+  .authbox {
+    padding: 30px 20px;
+  }
+
+  .inputbox input {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .authbox button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  p {
+    font-size: 16px;
+  }
 }
