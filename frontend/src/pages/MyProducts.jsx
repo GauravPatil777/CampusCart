@@ -80,19 +80,11 @@ const MyProducts = () => {
             <div className="myCard">
                 {products.length === 0 ? (
                     <div className="emptyWishlist">
-                        <img
+                        <img className="emptyProducts"
                             src={emptyProduct}
                             alt="No Products"
                         />
 
-                        <button
-                            className="exploreBtn"
-                            onClick={() =>
-                                navigate("/sell")
-                            }
-                        >
-                            Sell Something Now!
-                        </button>
                     </div>
                 ) : (
                     products.map((item) => {

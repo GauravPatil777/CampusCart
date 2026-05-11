@@ -241,7 +241,9 @@ body {
   .navbar {
     padding: 10px;
   }
-
+.emptyProducts{
+  scale:2;
+}
   .searchBox input {
     font-size: 0.9rem;
   }
