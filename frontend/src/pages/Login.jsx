@@ -41,29 +41,30 @@ const Login = () => {
       setEmail("");
       setPassword("");
       setLoading(false)
+      toast.success("Logged in successfully")
       navigate("/home");
 
     } catch (error) {
 
       // if email not verified
-      if (
-        error?.response?.status === 403 &&
-        error?.response?.data?.user?.isVerified === false
-      ) {
-        const res=await axios.post(
-          `${API}/api/users/resend-otp`,
-          { email: error.response.data.user.email },
-          { withCredentials: true }
-        );
-        toast.info("OTP resent to your email. Please verify to login.");
-        navigate("/verify-otp", {
-          state: {
-            email: error.response.data.user.email
-          }
-        });
+      // if (
+      //   error?.response?.status === 403 &&
+      //   error?.response?.data?.user?.isVerified === false
+      // ) {
+      //   const res=await axios.post(
+      //     `${API}/api/users/resend-otp`,
+      //     { email: error.response.data.user.email },
+      //     { withCredentials: true }
+      //   );
+      //   toast.info("OTP resent to your email. Please verify to login.");
+      //   navigate("/verify-otp", {
+      //     state: {
+      //       email: error.response.data.user.email
+      //     }
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
       setLoading(false)
       setError(
         error?.response?.data?.message || "Login failed"

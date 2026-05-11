@@ -45,37 +45,38 @@ const Signup = () => {
       setPassword("");
 
       // Navigate to OTP verification page
-      navigate("/verify-otp", {
-        state: { email: userEmail },
-      });
-
+      // navigate("/verify-otp", {
+      //   state: { email: userEmail },
+      // });
+      toast.success("resgistration successful")
+      navigate("/")
     } catch (error) {
       // If user exists but not verified → resend OTP
-      if (
-        error?.response?.status === 403 &&
-        error?.response?.data?.userExist?.isVerified === false
-      ) {
+      // if (
+      //   error?.response?.status === 403 &&
+      //   error?.response?.data?.userExist?.isVerified === false
+      // ) {
 
-        await axios.post(
-          `${API}/api/users/resend-otp`,
-          {
-            email: error.response.data.userExist.email,
-          },
-          {
-            withCredentials: true,
-          }
-        );
+      //   await axios.post(
+      //     `${API}/api/users/resend-otp`,
+      //     {
+      //       email: error.response.data.userExist.email,
+      //     },
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   );
 
-        toast.info("OTP resent to your email. Please verify to register.");
+      //   toast.info("OTP resent to your email. Please verify to register.");
 
-        navigate("/verify-otp", {
-          state: {
-            email: error.response.data.userExist.email,
-          },
-        });
+      //   navigate("/verify-otp", {
+      //     state: {
+      //       email: error.response.data.userExist.email,
+      //     },
+      //   });
 
-        return;
-      }
+      //   return;
+      // }
 
       setError(
         error?.response?.data?.message ||
@@ -227,6 +228,7 @@ const Signup = () => {
                 id='password'
                 placeholder='Enter Password'
                 value={password}
+                 minLength={6}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   setError("");

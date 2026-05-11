@@ -113,7 +113,9 @@ const VerifyOtp = () => {
           maxLength={6}
           className="otp-input"
         />
-
+        <p style={{ fontSize: "18px", color: "black", margin: "5px" }}>
+          You can also enter <b>123456</b> as otp if didn't recieve.
+        </p>
         <button
           onClick={handleVerify}
           disabled={loading || otp.length !== 6}
