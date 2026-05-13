@@ -86,14 +86,18 @@ const Home = () => {
   };
 
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading Content...</p>
-      </div>
-    );
+  const cards = [];
+
+  for (let i = 0; i < 8; i++) {
+    cards.push(<div key={i} className="emptyCard"></div>);
   }
 
+  return (
+    <div style={{display:"flex",flexWrap:"wrap"}}>
+      {cards}
+    </div>
+  )
+}
   return (
     <div>
       <div className="myCard">

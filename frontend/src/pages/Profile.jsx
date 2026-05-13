@@ -40,6 +40,7 @@ const Profile = () => {
 
       // Auto-open edit mode if profile incomplete
       if (!user.branch || !user.contact || !user.year || !user.sem) {
+        toast.info("Complete your profile first")
         setEditMode(true);
       }
     } catch (error) {
@@ -87,11 +88,15 @@ const Profile = () => {
         data.append("profilePic", formData.profilePic);
       }
 
-      await axios.put(`${API}/api/users/update-profile`, data, {
+      const res=await axios.put(`${API}/api/users/update-profile`, data, {
         withCredentials: true,
       });
+      const user=res.data.user;
+      
+      if (user.branch && user.contact && user.year && user.sem) {
+        toast.success("Profile updated successfully");
+      }
 
-      toast.success("Profile updated successfully");
       setEditMode(false);
       fetchProfile();
     } catch (error) {
@@ -122,7 +127,7 @@ const Profile = () => {
               formData.profilePic
                 ? URL.createObjectURL(formData.profilePic)
                 : profileData?.profilePic ||
-                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
             }
             alt="profile"
             className="profile-img"

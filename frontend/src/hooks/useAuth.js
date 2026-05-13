@@ -25,7 +25,6 @@ export const useAuth = () => {
       if (data) {
         setUser(data.user)
       }
-      toast.success("Login successful");
       return data;
     } catch (error) {
       const message = error?.response.data.message;
